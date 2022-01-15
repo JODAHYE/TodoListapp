@@ -17,19 +17,29 @@ const Wrap = styled.div`
 const Title = styled.h1`
   font-size: 24px;
   font-weight: 500;
-  margin: 170px 0;
+  margin-top: 170px;
   color: #E72A53;
   @media (min-width: 320px) and (max-width: 480px) {
     font-size: 18px;
     margin: 70px 0;
   }
 `;
+const Line = styled.hr`
+  background: #4BCFA1;
+  border: 0;
+  margin: 160px 120px 0;
+  height: 2px;
+  width: 40%;
+  @media (min-width: 320px) and (max-width: 480px) {
+    margin: 40px 0;
+  }
+
+`;
 const Content = styled.div`
   width: 40%;
   display: flex;
   flex-direction: column;
   padding-top: 100px; 
-  border-top: 2px solid #4BCFA1;
   @media (min-width: 320px) and (max-width: 480px) {
     width: 96%;
     padding-top: 30px; 
@@ -48,6 +58,7 @@ function App() {
   return (
     <Wrap>
       <Title>Todo List</Title>
+      <Line />
       {!isLogin && <LoginContainer isLogin={isLogin} />}
       {isLogin&&(
         <>
