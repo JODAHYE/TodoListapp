@@ -1,5 +1,6 @@
 import { firestore } from "../firebase";
-import {put, takeEvery, takeLatest} from 'redux-saga/effects';
+import {call, put, takeEvery, takeLatest} from 'redux-saga/effects';
+import { getUserId } from "./user";
 const CREATE = "post/CREATE";
 const CREATE_SUCCESS = "post/CREATE_SUCCESS";
 const CREATE_FAILURE = "post/CREATE_FAILURE";
@@ -67,21 +68,23 @@ function* createItemSaga(action){
     })
   }
 }
+
+
 function* getItemsSaga(action){
   try{
     yield put({type: LOADING, payload: true});
+    const userId = yield getUserId(); 
     const todosRef = yield firestore.collection('todo');    
-    const snapshot = yield todosRef.where('userId', '==', localStorage.getItem('userId')).orderBy('date').limit(action.payload).get();
+    const snapshot = yield todosRef.where('userId', '==', userId).orderBy('date').limit(action.payload).get();
     const datas = [];
     if (snapshot.empty) {
-      console.log('No matching documents.');
+      console.log('No matching posts.');
       yield put({
         type: GET_SUCCESS,
         payload: {}
       })
     }else{
-      yield snapshot.forEach(doc=> {
-        // console.log(doc.id, '=>', doc.data());
+      yield snapshot.forEach(doc=> {;
         const value = doc.data();
         value.postId = doc.id;
         datas.push(value);

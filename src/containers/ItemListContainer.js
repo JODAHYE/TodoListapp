@@ -11,7 +11,6 @@ const Target = styled.div`
 `;
 const ItemListContainer = () => {
   const {posts} = useSelector(state=>state.post);
-  // const {loading} = useSelector(state=>state.post);
   const [addLoading, setAddLoading] = useState(false);
   const dispatch = useDispatch();
   let idx= 6;
@@ -20,14 +19,15 @@ const ItemListContainer = () => {
 
   useEffect(()=>{
     dispatch(getItems(idx));
+    setAddLoading(false);
   },[]);
 
   useEffect(()=>{
     const observer = new IntersectionObserver(callback, {
-      threshold: 0.5,  //target요소가 60%보여지면 콜백함수 실행
+      threshold: 0.5,  
     });
     observer.observe(target.current); 
-    return () => {observer && observer.disconnect()};  //cleanup
+    return () => {observer && observer.disconnect()};  
   },[]);
 
   const getData = async() =>{
@@ -43,7 +43,6 @@ const ItemListContainer = () => {
       });
       await new Promise((resolve) => setTimeout(resolve, 300));
       setAddLoading(false); 
-    
     }
   }
   const callback = async([entry], observer)=>{

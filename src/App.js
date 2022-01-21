@@ -4,6 +4,7 @@ import LoginContainer from './containers/LoginContainer';
 import styled from 'styled-components';
 import SubmitContainer from './containers/SubmitContainer';
 import ItemListContainer from './containers/ItemListContainer';
+import { useSelector } from 'react-redux';
 const Wrap = styled.div`
   min-height: 100vh;
   background: #eee;
@@ -47,22 +48,18 @@ const Content = styled.div`
 `;
 function App() {
   const [isLogin, setIsLogin] = useState(false);
+  const {loading} = useSelector(state=>state.user);
   useEffect(()=>{
-    if(localStorage.getItem('userId')){
-      setIsLogin(true);
-    }else{
-      setIsLogin(false);
-    }
+    localStorage.getItem('access_token')?setIsLogin(true):setIsLogin(false);
   }, []);
-
   return (
     <Wrap>
       <Title>Todo List</Title>
       <Line />
-      {!isLogin && <LoginContainer isLogin={isLogin} />}
-      {isLogin&&(
+      {!isLogin && <LoginContainer setIsLogin={setIsLogin} isLogin={isLogin}/>}
+      {(isLogin&&!loading)&&(
         <>
-        <LoginContainer isLogin={isLogin} />
+        <LoginContainer setIsLogin={setIsLogin} isLogin={isLogin}/>
         <Content>
           <SubmitContainer />
           <ItemListContainer />

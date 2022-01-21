@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import Submit from '../components/Submit';
 import { createItem } from '../modules/post';
 import moment from 'moment';
+import { getUserId } from '../modules/user';
 const SubmitContainer = () => {
   const [data, setData] = useState('');
   const dispatch = useDispatch();
@@ -11,10 +12,12 @@ const SubmitContainer = () => {
     const body = {
       content: data,
       date: parseInt(today),
-      userId: localStorage.getItem('userId'),
       check: false
-    }
-    dispatch(createItem(body));
+    }  
+    getUserId().then(res=>{
+      body.userId = res;
+      dispatch(createItem(body));
+    })
     setData('');
   }
   const onChangeData = (e) => {
