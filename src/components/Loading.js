@@ -1,43 +1,18 @@
-import styled, { keyframes } from "styled-components";
-
-const scale = keyframes`
-  0% {
-    transform: scale(0.5);
-  }
-  50%{
-    transform: scale(0.8);
-  }
-  100% {
-    transform: scale(0.5);
-  }
-`;
-
+import styled from "styled-components";
+import Skeleton from '@material-ui/lab/Skeleton';
 const LoaderWrap = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
   padding-top: 50px;
-`;
-const Circle = styled.span`
-  background: #727272;
-  border-radius: 50%;
-  width: 15px;
-  height: 15px;
-  margin: 10px;
-  animation: ${scale} 1s 0.3s infinite linear;
-  &: first-child {
-    animation-delay: 0s;
-  }
-  &: last-child {
-    animation-delay: 0.6s;
-  }
+  flex-direction: column;
 `;
 const Loading = () => {
   return (
     <LoaderWrap>
-      <Circle />
-      <Circle />
-      <Circle />
+      <Skeleton animation="wave" width={'90%'} height={30} />
+      <Skeleton animation="wave" width={'80%'} height={30} />
+      <Skeleton animation="wave" width={'100%'} height={25} />
     </LoaderWrap>
   );
 };

@@ -5,6 +5,7 @@ import Loading from '../components/Loading';
 import { getItems } from '../modules/post';
 import ItemContainer from './ItemContainer';
 import { firestore } from "../firebase";
+import { getUserId } from '../modules/user';
 const Target = styled.div`
   width: 100%;
   height: 150px;
@@ -37,10 +38,12 @@ const ItemListContainer = () => {
       await new Promise((resolve) => setTimeout(resolve, 300));
       dispatch(getItems(idx)); 
       await new Promise((resolve) => setTimeout(resolve, 300));
-      const snapshot = firestore.collection('todo').where('userId', '==', localStorage.getItem('userId')).get();
-      snapshot.then(res=>{
-        if(res.size<=idx) scroll = false;
-      });
+      getUserId().then(userId=>{
+        const snapshot = firestore.collection('todo').where('userId', '==', userId).get();
+        snapshot.then(res=>{
+          if(res.size<=idx) scroll = false;
+        });
+      })
       await new Promise((resolve) => setTimeout(resolve, 300));
       setAddLoading(false); 
     }

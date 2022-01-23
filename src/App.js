@@ -51,6 +51,7 @@ function App() {
   const {loading} = useSelector(state=>state.user);
   useEffect(()=>{
     localStorage.getItem('access_token')?setIsLogin(true):setIsLogin(false);
+  
   }, []);
   return (
     <Wrap>
